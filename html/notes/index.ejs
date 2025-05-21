@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>My Notes</h1>
+
+    <div class="category-list">
+      <a href="/notes" class="category-btn">All</a>
+      <% if (Array.isArray(categories)) { %>
+        <% categories.forEach(cat => { %>
+          <% if (cat) { %>
+            <a href="/notes/category/<%= cat %>" class="category-btn"><%= cat %></a>
+          <% } %>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <a href="/notes/new" class="btn new-note-btn">New Note</a>
+
+    <% if (notes.length === 0) { %>
+      <p>No notes found.</p>
+    <% } else { %>
+      <% notes.forEach(note => { %>
+        <div class="note-card">
+          <h3><%= note.title %></h3>
+          <p><%= note.content.substring(0, 100) %>...</p>
+          <a href="/notes/<%= note._id %>" class="btn">View</a>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>

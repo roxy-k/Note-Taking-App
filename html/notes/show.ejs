@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= note.title %> | My Notes</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1><%= note.title %></h1>
+
+  <p><strong>Category:</strong> <%= note.category || 'Uncategorized' %></p>
+  <p><%= note.content %></p>
+
+  <a href="/notes/<%= note._id %>/edit" class="btn">Edit</a>
+
+  <form action="/notes/<%= note._id %>/delete" method="POST" style="display:inline;">
+    <button type="submit" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this note?');">Delete</button>
+  </form>
+
+  <br><br>
+  <a href="/notes" class="btn">Back to Notes</a>
+</body>
+</html>

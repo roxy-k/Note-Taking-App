@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <img src="<%= profile.avatar %>" alt="Avatar" class="logo" />
+      <h1>Dashboard</h1>
+    </div>
+
+    <div class="dashboard-info">
+      <h2>Welcome, <%= profile.displayName %>!</h2>
+      <p><strong>Email:</strong> <%= profile.email %></p>
+      <p><strong>Google ID:</strong> <%= profile.userId %></p>
+      <p><strong>Last login:</strong> <%= profile.lastLogin.toLocaleString() %></p>
+    </div>
+
+    <div class="dashboard-preferences">
+      <h3>Your Preferences</h3>
+      <ul>
+        <li><strong>Font:</strong> <%= profile.preferences.fontFamily %></li>
+        <li><strong>Font Size:</strong> <%= profile.preferences.fontSize %>px</li>
+        <li><strong>Font Color:</strong> <%= profile.preferences.fontColor %></li>
+        <li><strong>Note Background:</strong> <%= profile.preferences.noteBackground %></li>
+      </ul>
+    </div>
+
+    <div class="dashboard-actions">
+      <a href="/notes" class="btn">Go to Notes</a>
+      <a href="/settings" class="btn settings-btn">⚙️ Settings</a>
+      <a href="/logout" class="btn logout-btn">Logout</a>
+    </div>
+  </div>
+</body>
+</html>

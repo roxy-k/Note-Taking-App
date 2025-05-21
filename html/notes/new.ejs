@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create New Note</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Create New Note</h1>
+  <form action="/notes" method="POST">
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title" required>
+
+    <label for="content">Content:</label>
+    <textarea name="content" id="content" required></textarea>
+
+    <label for="category">Category:</label>
+    <select name="category" id="category">
+      <option value="Work">Work</option>
+      <option value="Personal">Personal</option>
+      <option value="Ideas">Ideas</option>
+      <option value="Reminders">Reminders</option>
+      <option value="Health">Health</option>
+      <option value="Shopping">Shopping</option>
+    </select>
+
+    <button type="submit">Create</button>
+  </form>
+</body>
+</html>

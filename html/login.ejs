@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express Auth Demo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Express Authentication Demo</h1>
+    <div class="auth-box">
+      <h2>Login with OAuth</h2>
+      <p>This demo shows how to implement Google OAuth authentication with PassportJS.</p>
+      
+      <div class="auth-buttons">
+        <a href="/auth/google" class="google-btn">
+          <img src="/google-logo.png" alt="Google Logo">
+          Login with Google
+        </a>
+      </div>
+      
+      <% if (user) { %>
+        <div class="user-info">
+          <p>You're already logged in as: <%= user.displayName %></p>
+          <a href="/dashboard" class="dashboard-link">Go to Dashboard</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>
