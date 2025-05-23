@@ -5,6 +5,7 @@ const path = require('path');
 require('dotenv').config();
 require('./config/passport');
 const mongoose = require('mongoose');
+const UserProfile = require('./models/userProfile'); // ⬅️ Добавлено
 
 const app = express();
 const Note = require('./models/note');
@@ -14,8 +15,7 @@ mongoose.connect('mongodb+srv://katysheva1992:Balabanova92!@cluster0.b7eip4f.mon
   .catch(err => console.error('MongoDB connection error:', err));
 
 app.set('view engine', 'ejs');
-// if you delete this line, it will default to 'views' folder
-app.set('views', path.join(__dirname, 'html')); 
+app.set('views', path.join(__dirname, 'html'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -32,9 +32,21 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Подключение защищённого dashboard после passport.session
-app.use('/dashboard', require('./routes/dashboard'));
+// ✅ Middleware: передаём profile во все шаблоны, если пользователь залогинен
+app.use(async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    try {
+      const userProfile = await UserProfile.findOne({ userId: req.user.googleId });
+      res.locals.profile = userProfile; // ⬅️ Доступен в EJS как profile
+    } catch (err) {
+      console.error('Error fetching profile for layout:', err.message);
+    }
+  }
+  next();
+});
 
+// Routes
+app.use('/dashboard', require('./routes/dashboard'));
 app.use('/notes', require('./routes/notes'));
 app.use('/api', require('./routes/api'));
 app.use('/', require('./routes/auth'));
@@ -43,8 +55,6 @@ app.use('/', require('./routes/auth'));
 app.get('/', (req, res) => {
   res.render('login', { user: req.user });
 });
-
-// ❌ Удалено: app.get('/dashboard', ...) — перенесено в routes/dashboard.js
 
 // Middleware для защиты маршрутов
 function isLoggedIn(req, res, next) {

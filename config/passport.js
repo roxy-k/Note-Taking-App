@@ -14,13 +14,16 @@ passport.use(new GoogleStrategy({
       // Найти или создать пользователя (в users коллекции)
       let user = await User.findOne({ googleId: profile.id });
       if (!user) {
-        user = new User({
-          googleId: profile.id,
-          email: profile.emails[0].value,
-          name: profile.displayName
-        });
-        await user.save();
-      }
+  user = new User({
+    googleId: profile.id,
+    email: profile.emails[0].value,
+    name: profile.displayName,
+    avatar: profile.photos?.[0]?.value || '/dog-avatar.png'
+
+  });
+  await user.save();
+}
+
 
       // Найти или создать профиль (в userProfiles коллекции)
       let userProfile = await UserProfile.findOne({ userId: profile.id });

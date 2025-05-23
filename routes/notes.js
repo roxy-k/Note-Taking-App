@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/note');
+const UserProfile = require('../models/userProfile'); // ✅ добавлено
 
 // Middleware to check if user is logged in
 function isLoggedIn(req, res, next) {
@@ -20,7 +21,8 @@ router.get('/category/:category', isLoggedIn, async (req, res) => {
   try {
     const notes = await Note.find({ category, owner: req.user._id });
     const categories = await Note.find({ owner: req.user._id }).distinct('category');
-    res.render('notes/index', { notes, categories });
+    const userProfile = await UserProfile.findOne({ userId: req.user.googleId }); // ✅ исправлено
+    res.render('notes/index', { notes, categories, profile: userProfile });
   } catch (err) {
     console.error('Error filtering by category:', err.message);
     res.status(500).send('Server error');
@@ -32,7 +34,8 @@ router.get('/', isLoggedIn, async (req, res) => {
   try {
     const notes = await Note.find({ owner: req.user._id });
     const categories = await Note.find({ owner: req.user._id }).distinct('category');
-    res.render('notes/index', { notes, categories });
+    const userProfile = await UserProfile.findOne({ userId: req.user.googleId }); // ✅ исправлено
+    res.render('notes/index', { notes, categories, profile: userProfile });
   } catch (err) {
     console.error('Error getting notes:', err.message);
     res.status(500).send('Server Error');
@@ -63,8 +66,9 @@ router.post('/', isLoggedIn, async (req, res) => {
 router.get('/:id/edit', isLoggedIn, async (req, res) => {
   try {
     const note = await Note.findOne({ _id: req.params.id, owner: req.user._id });
+    const userProfile = await UserProfile.findOne({ userId: req.user.googleId }); // ✅ исправлено
     if (!note) return res.status(404).send('Note not found');
-    res.render('notes/edit', { note });
+    res.render('notes/edit', { note, profile: userProfile });
   } catch (err) {
     console.error('Error loading edit form:', err.message);
     res.status(500).send('Server error');
@@ -100,13 +104,14 @@ router.post('/:id/delete', isLoggedIn, async (req, res) => {
 // GET /notes/:id — show a single note
 router.get('/:id', isLoggedIn, async (req, res) => {
   try {
+    const userProfile = await UserProfile.findOne({ userId: req.user.googleId }); // ✅ исправлено
     const note = await Note.findOne({
       _id: req.params.id,
       owner: req.user._id
     });
 
     if (!note) return res.status(404).send('Note not found');
-    res.render('notes/show', { note });
+    res.render('notes/show', { note, profile: userProfile });
   } catch (err) {
     console.error('Error fetching note:', err.message);
     res.status(500).send('Server error');

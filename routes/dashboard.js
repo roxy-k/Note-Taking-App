@@ -28,4 +28,41 @@ router.get('/', isLoggedIn, async (req, res) => {
   }
 });
 
+// GET /dashboard/preferences — показать форму
+router.get('/preferences', isLoggedIn, async (req, res) => {
+  try {
+    const profile = await UserProfile.findOne({ userId: req.user.googleId });
+    res.render('preferences', { profile });
+  } catch (err) {
+    console.error('Error loading preferences:', err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// POST /dashboard/preferences — обновить настройки
+router.post('/preferences', isLoggedIn, async (req, res) => {
+  console.log('Received form data:', req.body);
+
+  const { fontSize, fontColor, fontFamily, noteBackground } = req.body;
+
+  try {
+    await UserProfile.findOneAndUpdate(
+      { userId: req.user.googleId },
+      {
+        $set: {
+          'preferences.fontSize': fontSize,
+          'preferences.fontColor': fontColor,
+          'preferences.fontFamily': fontFamily,
+          'preferences.noteBackground': noteBackground
+        }
+      }
+    );
+    res.redirect('/dashboard');
+  } catch (err) {
+    console.error('Error updating preferences:', err.message);
+    res.status(500).send('Update failed');
+  }
+});
+
+
 module.exports = router;

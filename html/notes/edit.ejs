@@ -5,7 +5,11 @@
   <title>Edit Note</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body style="font-family: <%= profile?.preferences?.fontFamily || 'Arial' %>; 
+             background-color: <%= profile?.preferences?.noteBackground || '#ffffff' %>; 
+             color: <%= profile?.preferences?.fontColor || '#000000' %>;">
+
+  
   <h1>Edit Note</h1>
 
   <form action="/notes/<%= note._id %>/edit" method="POST">
