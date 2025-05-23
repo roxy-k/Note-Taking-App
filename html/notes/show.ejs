@@ -5,7 +5,10 @@
   <title><%= note.title %> | My Notes</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body style="font-family: <%= profile?.preferences?.fontFamily || 'Arial' %>; 
+             background-color: <%= profile?.preferences?.noteBackground || '#ffffff' %>; 
+             color: <%= profile?.preferences?.fontColor || '#000000' %>;">
+
   <h1><%= note.title %></h1>
 
   <p><strong>Category:</strong> <%= note.category || 'Uncategorized' %></p>
