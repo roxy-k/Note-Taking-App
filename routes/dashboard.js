@@ -63,6 +63,32 @@ router.post('/preferences', isLoggedIn, async (req, res) => {
     res.status(500).send('Update failed');
   }
 });
+// GET /dashboard/stats — показать статистику
+router.get('/stats', isLoggedIn, async (req, res) => {
+  try {
+    const totalNotes = await Note.countDocuments({ owner: req.user._id });
+
+    const categoryCounts = await Note.aggregate([
+      { $match: { owner: req.user._id } },
+      { $group: { _id: "$category", count: { $sum: 1 } } },
+      { $sort: { count: -1 } }
+    ]);
+
+    const recentNotes = await Note.find({ owner: req.user._id })
+                                  .sort({ createdAt: -1 })
+                                  .limit(5);
+
+    res.render('stats', {
+      totalNotes,
+      categoryCounts,
+      recentNotes
+    });
+  } catch (err) {
+    console.error('Error loading stats:', err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 
 
 module.exports = router;

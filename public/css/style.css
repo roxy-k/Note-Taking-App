@@ -5,6 +5,16 @@ h1, h2, h3 {
   color: #4a3f55;
 }
 
+body {
+  background: #fefefe;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+  padding: 40px;
+  max-width: 1000px;
+}
+
 /* Навигация */
 .navbar {
   background-color: #f9d5d3;
