@@ -1,7 +1,9 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/user');
-const UserProfile = require('../models/userProfile'); // подключаем профиль
+const UserProfile = require('../models/userProfile'); 
+const FacebookStrategy = require('passport-facebook').Strategy;
+require('dotenv').config();
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -14,16 +16,14 @@ passport.use(new GoogleStrategy({
       // Найти или создать пользователя (в users коллекции)
       let user = await User.findOne({ googleId: profile.id });
       if (!user) {
-  user = new User({
-    googleId: profile.id,
-    email: profile.emails[0].value,
-    name: profile.displayName,
-    avatar: profile.photos?.[0]?.value || '/dog-avatar.png'
-
-  });
-  await user.save();
-}
-
+        user = new User({
+          googleId: profile.id,
+          email: profile.emails[0].value,
+          name: profile.displayName,
+          avatar: profile.photos?.[0]?.value || '/dog-avatar.png'
+        });
+        await user.save();
+      }
 
       // Найти или создать профиль (в userProfiles коллекции)
       let userProfile = await UserProfile.findOne({ userId: profile.id });
@@ -32,7 +32,7 @@ passport.use(new GoogleStrategy({
           userId: profile.id,
           email: profile.emails[0].value,
           displayName: profile.displayName,
-          avatar: profile.photos[0].value,
+          avatar: profile.photos?.[0]?.value || '/dog-avatar.png',
           preferences: {
             fontSize: 16,
             fontColor: '#000000',
@@ -42,6 +42,54 @@ passport.use(new GoogleStrategy({
         });
       } else {
         // Обновить дату последнего входа
+        userProfile.lastLogin = new Date();
+      }
+
+      await userProfile.save();
+
+      return done(null, user); // сохраняем только user в сессию
+    } catch (err) {
+      return done(err);
+    }
+  }
+));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:3000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'photos', 'email']
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      let user = await User.findOne({ facebookId: profile.id });
+      if (!user) {
+        user = new User({
+          facebookId: profile.id,
+          email: profile.emails[0].value,
+          name: profile.displayName,
+          avatar: profile.photos?.[0]?.value || '/dog-avatar.png'
+        });
+        await user.save();
+      }
+
+      
+      let userProfile = await UserProfile.findOne({ userId: profile.id });
+      if (!userProfile) {
+        userProfile = new UserProfile({
+          userId: profile.id,
+          email: profile.emails[0].value,
+          displayName: profile.displayName,
+          avatar: profile.photos?.[0]?.value || '/dog-avatar.png',
+          preferences: {
+            fontSize: 16,
+            fontColor: '#000000',
+            fontFamily: 'Arial',
+            noteBackground: '#ffffff'
+          }
+        });
+      } else {
+        // 
         userProfile.lastLogin = new Date();
       }
 

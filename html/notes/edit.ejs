@@ -3,16 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Note</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/css/style.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body style="font-family: <%= profile?.preferences?.fontFamily || 'Arial' %>;
-             font-size: <%= profile?.preferences?.fontSize || 16 %>px;
-             background-color: <%= profile?.preferences?.noteBackground || '#ffffff' %>;
-             color: <%= profile?.preferences?.fontColor || '#000000' %>;">
-  
-  <div class="container py-5">
+<body class="d-flex flex-column min-vh-100" style="font-family: <%= profile?.preferences?.fontFamily ? `'${profile.preferences.fontFamily}'` : 'Arial' %>; font-size: <%= profile?.preferences?.fontSize || 16 %>px; background-color: <%= profile?.preferences?.noteBackground || '#ffffff' %>; color: <%= profile?.preferences?.fontColor || '#000000' %>;">
+
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #f9d5d3;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard">Note Taking App</a>
+      <div class="d-flex">
+        <a class="btn btn-outline-light me-2" href="/notes">📝 Notes</a>
+        <a class="btn btn-outline-light me-2" href="/dashboard/preferences">⚙️ Preferences</a>
+        <a class="btn btn-outline-warning" href="/logout">🚪 Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-5">
     <h1 class="mb-4">✏️ Edit Note</h1>
 
     <form method="POST" action="/notes/<%= note._id %>/edit">
@@ -34,6 +43,10 @@
       <button type="submit" class="btn btn-primary">💾 Save Changes</button>
       <a href="/notes/<%= note._id %>" class="btn btn-secondary ms-2">Cancel</a>
     </form>
-  </div>
+  </main>
+
+  <footer class="mt-auto text-center py-3 small" style="background-color: #f4e1d2; color: #6a5555;">
+    &copy; 2025 Oksana Katysheva
+  </footer>
 </body>
 </html>

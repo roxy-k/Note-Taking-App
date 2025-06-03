@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const UserProfile = require('../models/userProfile');
+const Note = require('../models/note');
 
 // ✅ Middleware для защиты маршрута
 function isLoggedIn(req, res, next) {
@@ -32,12 +33,16 @@ router.get('/', isLoggedIn, async (req, res) => {
 router.get('/preferences', isLoggedIn, async (req, res) => {
   try {
     const profile = await UserProfile.findOne({ userId: req.user.googleId });
-    res.render('preferences', { profile });
+    res.render('preferences', {
+      profile,
+      user: req.user
+    });
   } catch (err) {
     console.error('Error loading preferences:', err.message);
     res.status(500).send('Server error');
   }
 });
+
 
 // POST /dashboard/preferences — обновить настройки
 router.post('/preferences', isLoggedIn, async (req, res) => {

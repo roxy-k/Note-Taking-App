@@ -14,7 +14,17 @@ router.get('/auth/google/callback',
     successRedirect: '/dashboard'
   })
 );
-
+// Facebook login
+router.get('/auth/facebook',
+  passport.authenticate('facebook', { scope: ['email','public_profile'] })
+);
+// Facebook callback
+router.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', { 
+    failureRedirect: '/', 
+    successRedirect: '/dashboard' 
+  })
+);
 // Logging out
 router.get('/logout', (req, res) => {
   req.logout(function(err) {

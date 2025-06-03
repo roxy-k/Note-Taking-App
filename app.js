@@ -62,8 +62,12 @@ function isLoggedIn(req, res, next) {
   res.redirect('/');
 }
 
-const PORT = process.env.PORT || 3000;
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Visit http://localhost:${PORT} to see the app`);
 });
+}
+ 
+module.exports = app; 

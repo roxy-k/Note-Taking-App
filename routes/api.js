@@ -11,30 +11,50 @@ function isLoggedIn(req, res, next) {
 // GET /api/notes — return all notes for the user in JSON
 router.get('/notes', isLoggedIn, async (req, res) => {
   try {
-    const notes = await Note.find({ owner: req.user._id });
+    const filter = { owner: req.user._id };
+
+    if (req.query.category) {
+      filter.category = req.query.category;
+    }
+    const notes = await Note.find(filter);
     res.json(notes);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch notes' });
   }
 });
-
-// POST /api/notes — create a new note via JSON API
+router.get('/notes/:id', isLoggedIn, async (req, res) => {
+  try {
+    const note = await Note.findOne({ _id: req.params.id, owner: req.user._id });
+    if (!note || note.owner.toString() !== req.user._id.toString()) {
+      return res.status(404).json({ error: 'Note not found' });
+    }
+    res.json(note);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to fetch note' });
+  }
+});
+// ✅ POST /api/notes — создать новую заметку
 router.post('/notes', isLoggedIn, async (req, res) => {
   try {
     const { title, content, category } = req.body;
 
-    const newNote = new Note({
+    if (!title || !content) {
+      return res.status(400).json({ error: 'Title and content are required' });
+    }
+
+    const note = await Note.create({
       title,
       content,
-      category,
-      owner: req.user._id
+      category: category || '',
+      owner: req.user.id
     });
 
-    await newNote.save();
-    res.status(201).json(newNote);
+    res.status(201).json(note);
   } catch (err) {
+    console.error('POST error:', err.message);
     res.status(500).json({ error: 'Failed to create note' });
   }
 });
+
 
 module.exports = router;
