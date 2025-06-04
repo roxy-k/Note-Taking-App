@@ -1,2 +1,4 @@
 
-          name: profile.displayName,
+        const user = {
+                  name: profile.displayName,
+        };
