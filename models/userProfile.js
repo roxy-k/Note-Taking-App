@@ -17,7 +17,7 @@ const userProfileSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: '/dog-avatar.png' // 🐶 путь к локальной заглушке
+    default: '/dog-avatar.png' 
   },
   preferences: {
     fontSize: { type: Number, default: 16 },

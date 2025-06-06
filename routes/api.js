@@ -33,7 +33,7 @@ router.get('/notes/:id', isLoggedIn, async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch note' });
   }
 });
-// ✅ POST /api/notes — создать новую заметку
+// ✅ POST /api/notes 
 router.post('/notes', isLoggedIn, async (req, res) => {
   try {
     const { title, content, category } = req.body;

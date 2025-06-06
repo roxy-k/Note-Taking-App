@@ -10,10 +10,9 @@ chai.use(chaiHttp);
 
 describe('Notes API - GET Endpoints', function () {
   let mockUser;
-  let agent = chai.request.agent(app); // для сессии
-
+  let agent = chai.request.agent(app); 
   beforeEach(async function () {
-    // Удалим все и создадим мок-пользователя
+  
     await User.deleteMany({});
     const googleId = new mongoose.Types.ObjectId().toString();
 
@@ -24,10 +23,10 @@ describe('Notes API - GET Endpoints', function () {
       avatar: 'https://example.com/avatar.jpg'
     });
 
-    // мок авторизации
+
     app.request.user = mockUser;
 
-    // очистим заметки
+   
     await Note.deleteMany({ owner: mockUser._id });
   });
 
@@ -45,5 +44,5 @@ describe('Notes API - GET Endpoints', function () {
       });
   });
 
-  // ... другие тесты
+ 
 });

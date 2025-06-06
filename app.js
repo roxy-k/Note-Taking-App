@@ -32,12 +32,12 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ Middleware: передаём profile во все шаблоны, если пользователь залогинен
+
 app.use(async (req, res, next) => {
   if (req.isAuthenticated()) {
     try {
       const userProfile = await UserProfile.findOne({ userId: req.user.googleId });
-      res.locals.profile = userProfile; // ⬅️ Доступен в EJS как profile
+      res.locals.profile = userProfile; 
     } catch (err) {
       console.error('Error fetching profile for layout:', err.message);
     }
@@ -45,18 +45,18 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// Routes
+
 app.use('/dashboard', require('./routes/dashboard'));
 app.use('/notes', require('./routes/notes'));
 app.use('/api', require('./routes/api'));
 app.use('/', require('./routes/auth'));
 
-// Главная страница
+
 app.get('/', (req, res) => {
   res.render('login', { user: req.user });
 });
 
-// Middleware для защиты маршрутов
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect('/');

@@ -13,19 +13,19 @@ passport.use(new GoogleStrategy({
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      // Найти или создать пользователя (в users коллекции)
+      
       let user = await User.findOne({ googleId: profile.id });
       if (!user) {
         user = new User({
           googleId: profile.id,
-          email: profile.emails[0].value,
+          email: profile.emails[0]?.value,
           name: profile.displayName,
           avatar: profile.photos?.[0]?.value || '/dog-avatar.png'
         });
         await user.save();
       }
 
-      // Найти или создать профиль (в userProfiles коллекции)
+      
       let userProfile = await UserProfile.findOne({ userId: profile.id });
       if (!userProfile) {
         userProfile = new UserProfile({
@@ -41,13 +41,13 @@ passport.use(new GoogleStrategy({
           }
         });
       } else {
-        // Обновить дату последнего входа
+        
         userProfile.lastLogin = new Date();
       }
 
       await userProfile.save();
 
-      return done(null, user); // сохраняем только user в сессию
+      return done(null, user); 
     } catch (err) {
       return done(err);
     }
@@ -103,13 +103,13 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.serializeUser((user, done) => {
-  done(null, user.id); // сохраняем в сессию Mongo ObjectId
+  done(null, user.id); 
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
-    done(null, user); // теперь user доступен как req.user
+    done(null, user); 
   } catch (err) {
     done(err);
   }

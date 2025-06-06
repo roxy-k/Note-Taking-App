@@ -3,7 +3,7 @@ const Note = require('../models/note');
 const mongoose = require('mongoose');
 
 describe('Note Model', function() {
-  // Создаем ObjectId один раз и используем везде
+
   const mockUserId = new mongoose.Types.ObjectId('507f1f77bcf86cd799439011');
 
   const noteData = {
@@ -18,7 +18,7 @@ describe('Note Model', function() {
     expect(note).to.have.property('title').equal('Test Note');
     expect(note).to.have.property('content').equal('This is a test note');
     expect(note).to.have.property('category').equal('Testing');
-    expect(note.owner.toString()).to.equal(mockUserId.toString()); // сравниваем корректно
+    expect(note.owner.toString()).to.equal(mockUserId.toString()); 
     expect(note).to.have.property('createdAt');
   });
   

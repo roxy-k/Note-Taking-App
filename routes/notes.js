@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/note');
-const UserProfile = require('../models/userProfile'); // ✅ добавлено
+const UserProfile = require('../models/userProfile'); 
 
 // Middleware to check if user is logged in
 function isLoggedIn(req, res, next) {

@@ -17,6 +17,7 @@
         <a href="/notes" class="btn btn-outline-light me-2">📝 Notes</a>
         <a href="/dashboard/preferences" class="btn btn-outline-light me-2">⚙️ Preferences</a>
         <a href="/logout" class="btn btn-outline-warning">🚪 Logout</a>
+        <button id="toggleTheme" class="btn btn-sm btn-secondary">🌙 Toggle Theme</button>
       </div>
     </div>
   </nav>
@@ -57,5 +58,23 @@
   <footer class="mt-auto text-center py-3 small" style="background-color: #f4e1d2; color: #6a5555;">
     &copy; 2025 Oksana Katysheva
   </footer>
+   <script>
+  const toggleButton = document.getElementById('toggleTheme');
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+
+  if (toggleButton) {
+    toggleButton.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem(
+        'theme',
+        document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+      );
+    });
+  }
+</script>
 </body>
 </html>

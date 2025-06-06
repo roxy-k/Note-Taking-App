@@ -3,13 +3,13 @@ const router = express.Router();
 const UserProfile = require('../models/userProfile');
 const Note = require('../models/note');
 
-// ✅ Middleware для защиты маршрута
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect('/');
 }
 
-// ✅ GET /dashboard — показать дашборд с профилем
+
 router.get('/', isLoggedIn, async (req, res) => {
   try {
     const userProfile = await UserProfile.findOne({ userId: req.user.googleId  || req.user.facebookId });
@@ -18,10 +18,10 @@ router.get('/', isLoggedIn, async (req, res) => {
       return res.status(404).send('User profile not found');
     }
 
-    // ✅ Передаём данные в шаблон dashboard.ejs
+
     res.render('dashboard', {
-      user: req.user,             // из passport
-      profile: userProfile        // из userProfile коллекции
+      user: req.user,             
+      profile: userProfile        
     });
   } catch (err) {
     console.error('Error loading dashboard:', err.message);
@@ -29,7 +29,7 @@ router.get('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// GET /dashboard/preferences — показать форму
+
 router.get('/preferences', isLoggedIn, async (req, res) => {
   try {
     const profile = await UserProfile.findOne({ userId: req.user.googleId  || req.user.facebookId });
@@ -50,7 +50,7 @@ router.get('/preferences', isLoggedIn, async (req, res) => {
 });
 
 
-// POST /dashboard/preferences — обновить настройки
+
 router.post('/preferences', isLoggedIn, async (req, res) => {
   console.log('Received form data:', req.body);
 
@@ -68,13 +68,13 @@ router.post('/preferences', isLoggedIn, async (req, res) => {
         }
       }
     );
-    res.redirect('/dashboard');
+    res.redirect('/dashboard/preferences?saved=true');
   } catch (err) {
     console.error('Error updating preferences:', err.message);
     res.status(500).send('Update failed');
   }
 });
-// GET /dashboard/stats — показать статистику
+// GET /dashboard/stats
 router.get('/stats', isLoggedIn, async (req, res) => {
   try {
     const totalNotes = await Note.countDocuments({ owner: req.user._id });
