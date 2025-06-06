@@ -95,7 +95,7 @@ passport.use(new FacebookStrategy({
 
       await userProfile.save();
 
-      return done(null, user); // сохраняем только user в сессию
+      return done(null, user); 
     } catch (err) {
       return done(err);
     }

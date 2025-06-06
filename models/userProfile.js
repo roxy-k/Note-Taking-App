@@ -9,6 +9,7 @@ const userProfileSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true
+    
   },
   displayName: {
     type: String,

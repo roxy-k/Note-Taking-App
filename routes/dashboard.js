@@ -12,7 +12,7 @@ function isLoggedIn(req, res, next) {
 // ✅ GET /dashboard — показать дашборд с профилем
 router.get('/', isLoggedIn, async (req, res) => {
   try {
-    const userProfile = await UserProfile.findOne({ userId: req.user.googleId });
+    const userProfile = await UserProfile.findOne({ userId: req.user.googleId  || req.user.facebookId });
 
     if (!userProfile) {
       return res.status(404).send('User profile not found');
@@ -32,10 +32,16 @@ router.get('/', isLoggedIn, async (req, res) => {
 // GET /dashboard/preferences — показать форму
 router.get('/preferences', isLoggedIn, async (req, res) => {
   try {
-    const profile = await UserProfile.findOne({ userId: req.user.googleId });
+    const profile = await UserProfile.findOne({ userId: req.user.googleId  || req.user.facebookId });
     res.render('preferences', {
-      profile,
-      user: req.user
+      profile: profile,
+      user: req.user,
+      preferences: profile?.preferences || {
+        fontSize: 16,
+        fontColor: '#000000',
+        fontFamily: 'Arial',
+        noteBackground: '#ffffff'
+      }
     });
   } catch (err) {
     console.error('Error loading preferences:', err.message);

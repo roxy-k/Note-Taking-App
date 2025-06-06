@@ -5,7 +5,7 @@ const path = require('path');
 require('dotenv').config();
 require('./config/passport');
 const mongoose = require('mongoose');
-const UserProfile = require('./models/userProfile'); // ⬅️ Добавлено
+const UserProfile = require('./models/userProfile'); // ⬅
 
 const app = express();
 const Note = require('./models/note');
