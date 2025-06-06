@@ -1,1 +1,0 @@
-mongodb+srv://katysheva1992:Balabanova92!@cluster0.b7eip4f.mongodb.net
