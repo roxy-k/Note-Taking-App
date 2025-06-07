@@ -10,7 +10,7 @@ const UserProfile = require('./models/userProfile'); // ⬅
 const app = express();
 const Note = require('./models/note');
 
-mongoose.connect('mongodb+srv://katysheva1992:Balabanova92!@cluster0.b7eip4f.mongodb.net/', {})
+mongoose.connect(process.env.MONGODB_URI )
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
