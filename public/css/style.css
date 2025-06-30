@@ -1,0 +1,173 @@
+
+
+/* Заголовки */
+h1, h2, h3 {
+  color: #4a3f55;
+}
+
+body {
+  background: #fefefe;
+  font-family: 'Segoe UI', sans-serif;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark-mode .btn {
+  background-color: #333;
+  color: #fff;
+  border-color: #555;
+}
+
+body.dark-mode .form-control {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.container {
+  padding: 40px;
+  max-width: 1000px;
+}
+
+/* Навигация */
+.navbar {
+  background-color: #f9d5d3;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eacac8;
+}
+
+/* Основной контейнер */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Карточки заметок */
+.note-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Кнопки */
+.btn {
+  background-color: #ffa5ab;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #ff8c94;
+}
+
+/* Кнопка фильтра категорий */
+.category-btn {
+  background-color: #fcd5ce;
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 5px;
+  margin: 0 5px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.category-btn:hover {
+  background-color: #fbb1a8;
+}
+
+/* Преференции */
+.card {
+  background-color: #fef0ef;
+  border: 1px solid #f3c9c8;
+  border-radius: 10px;
+}
+
+.card-header {
+  background-color: #ffd6d6;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #f3c9c8;
+}
+
+/* Аватар */
+.rounded-circle {
+  border-radius: 50%;
+}
+/* Default Theme */
+.default-theme {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Green Theme */
+.green-theme {
+  font-family: 'Times New Roman', serif;
+  font-size: 20px;
+  background-color: #0433ff;
+  color: #fff;
+}
+
+/* Pink Theme */
+.pink-theme {
+  font-family: 'Comic Sans MS';
+  font-size: 18px;
+  background-color: #f9d5d3;
+  color: #4a3f55;
+}
+
+/* Optional note styles */
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.note-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.btn, .category-btn {
+  display: inline-block;
+  padding: 8px 14px;
+  margin-top: 8px;
+  text-decoration: none;
+  background-color: #eee;
+  border-radius: 5px;
+  color: inherit;
+}
+
+
+/* Футер */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+}

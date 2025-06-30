@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100" style="background-color: #fff7f3; font-family: 'Segoe UI', sans-serif;">
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #f9d5d3;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/dashboard">Note Taking App</a>
+      <div class="d-flex">
+        <a href="/notes" class="btn btn-outline-light me-2">📝 Notes</a>
+        <a class="btn btn-outline-light me-2" href="/dashboard/stats">📊 Stats</a>
+       <a href="/logout" class="btn btn-outline-warning">🚪 Logout</a>
+       <button id="toggleTheme" class="btn btn-sm btn-secondary">🌙 Toggle Theme</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="container text-center my-5">
+    <% 
+      const avatar = profile.avatar || '';
+      const isFake = avatar.includes('/a/') && !avatar.includes('=s');
+      const avatarSrc = !avatar || isFake ? '/dog-avatar.png' : avatar;
+    %>
+    <img 
+  src="<%= profile.avatar && !profile.avatar.includes('/a/') && !profile.avatar.includes('=s') ? profile.avatar : '/dog-avatar.png' %>" 
+  alt="Avatar" 
+  class="rounded-circle shadow mb-3" 
+  width="120" 
+  height="120" 
+  id="user-avatar"
+  onerror="this.onerror=null; this.src='/dog-avatar.png';"
+/>
+
+
+    <h2 class="mt-2" style="color: #4a3f55;">Welcome, <%= profile.displayName %>!</h2>
+    <p class="text-muted small"><%= profile.email %> | ID: <%= profile.userId %></p>
+    <p class="small"><strong>Last login:</strong> <%= profile.lastLogin.toLocaleString() %></p>
+
+    <!-- ACTION BUTTONS -->
+    <div class="dashboard-actions mt-4 d-flex flex-wrap justify-content-center gap-3">
+      <a href="/notes" class="btn btn-primary px-4 shadow-sm">📝 Go to Notes</a>
+      <a href="/dashboard/preferences" class="btn btn-light border px-4 shadow-sm">⚙️ Edit Preferences</a>
+      <a href="/logout" class="btn btn-outline-dark px-4 shadow-sm">🚪 Logout</a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-auto text-center py-3 small" style="background-color: #f4e1d2; color: #6a5555;">
+    &copy; <%= new Date().getFullYear() %>  Oksana Katysheva
+  </footer>
+  <script>
+  const toggleButton = document.getElementById('toggleTheme');
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+  }
+
+  if (toggleButton) {
+    toggleButton.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem(
+        'theme',
+        document.body.classList.contains('dark-mode') ? 'dark' : 'light'
+      );
+    });
+  }
+</script>
+</body>
+</html>
