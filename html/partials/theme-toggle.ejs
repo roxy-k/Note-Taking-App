@@ -1,0 +1,19 @@
+<button id="toggleTheme" class="btn btn-outline-dark btn-sm">🌙 Toggle Theme</button>
+
+<script>
+  const toggleButton = document.getElementById('toggleTheme');
+  const savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme === 'dark') {
+    document.body.classList.remove('light-mode');
+    document.body.classList.add('dark-mode');
+  }
+
+  if (toggleButton) {
+    toggleButton.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode', !isDark);
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+  }
+</script>
